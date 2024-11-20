@@ -18,6 +18,10 @@ While you're encouraged to code along with this lecture, it'll be more important
 
 - Ordering rows
 
+## Reminder For Chett
+
+DO NOT DELETE YOUR TERMINAL OUTPUT BEFORE PUTTING IT IN THE `output.txt`!
+
 ## Getting Started
 
 First please download the sqlite3 utility if you haven't already. 
