@@ -1,0 +1,283 @@
+chett | 10:01:42 | intro-to-sql main
+☽ ☾ sqlite3 main.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> CREATE TABLE surf_data (
+(x1...> id INTEGER PRIMARY KEY,
+(x1...> date TEXT,
+(x1...> 
+(x1...> 
+(x1...> 
+(x1...> wave_height INTEGER
+(x1...> ,
+(x1...> wind_strength INTEGER,
+(x1...> tide TEXT,
+(x1...> water_temp INTEGER,
+(x1...> wind_direction TEXT
+(x1...> );
+sqlite> .schema
+CREATE TABLE surf_data (
+id INTEGER PRIMARY KEY,
+date TEXT,
+
+
+
+wave_height INTEGER
+,
+wind_strength INTEGER,
+tide TEXT,
+water_temp INTEGER,
+wind_direction TEXT
+);
+sqlite> DROP TABLE surf_data;
+sqlite> .schema
+sqlite> .schema
+CREATE TABLE surf_data (
+id INTEGER PRIMARY KEY,
+date TEXT,
+wave_height INTEGER,
+wind_strength INTEGER,
+tide TEXT,
+water_temp INTEGER,
+wind_direction TEXT
+);
+sqlite> INSERT INTO surf_data (date, wave_height, wind_strength, tide, water_temp, wind_direction) VALUES ("11/21/24", 3, 3
+, "low", 45, "NNW")
+   ...> ;
+sqlite> INSERT INTO surf_data (tide, date) VALUES ("high", "1/22/55");
+sqlite> INSERT INTO surf_data () VALUES ();
+Parse error: near ")": syntax error
+  INSERT INTO surf_data () VALUES ();
+                         ^--- error here
+sqlite> INSERT INTO surf_data;
+Parse error: near ";": syntax error
+  INSERT INTO surf_data;
+                       ^--- error here
+sqlite> INSERT INTO surf_data (date) VALUES ("9/11/02");
+sqlite> SELECT * FROM surf_data;
+1|11/21/24|3|3|low|45|NNW
+2|1/22/55|||high||
+3|9/11/02|||||
+sqlite> .headers on
+sqlite> .mode columns
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55                               high                            
+3   9/11/02                                                               
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55                               high                            
+3   9/11/02                                                               
+sqlite> SELECT id, date FROM surf_data;
+id  date    
+--  --------
+1   11/21/24
+2   1/22/55 
+3   9/11/02 
+sqlite> SELECT wind_strength FROM surf_data;
+wind_strength
+-------------
+3            
+             
+             
+sqlite> SELECT * FROM surf_data WHERE id = 1;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+sqlite> SELECT * FROM surf_data WHERE id = 3;
+id  date     wave_height  wind_strength  tide  water_temp  wind_direction
+--  -------  -----------  -------------  ----  ----------  --------------
+3   9/11/02                                                              
+sqlite> SELECT * FROM surf_data WHERE water_temp = NULL;
+sqlite> SELECT * FROM surf_data WHERE tide = "high";
+id  date     wave_height  wind_strength  tide  water_temp  wind_direction
+--  -------  -----------  -------------  ----  ----------  --------------
+2   1/22/55                              high                            
+sqlite> SELECT * FROM surf_data WHERE tide = "";
+sqlite> SELECT * FROM surf_data WHERE tide = NULL;
+sqlite> SELECT * FROM surf_data WHERE tide = "high" AND date = "1/22/55";
+id  date     wave_height  wind_strength  tide  water_temp  wind_direction
+--  -------  -----------  -------------  ----  ----------  --------------
+2   1/22/55                              high                            
+sqlite> SELECT * FROM surf_data WHERE tide = "high" OR date = "9/11/02";
+id  date     wave_height  wind_strength  tide  water_temp  wind_direction
+--  -------  -----------  -------------  ----  ----------  --------------
+2   1/22/55                              high                            
+3   9/11/02                                                              
+sqlite> SELECT * FROM surf_data WHERE tide = 'high';
+id  date     wave_height  wind_strength  tide  water_temp  wind_direction
+--  -------  -----------  -------------  ----  ----------  --------------
+2   1/22/55                              high                            
+sqlite> SELECT * FROM surf_data WHERE tide = `high`;
+Parse error: no such column: high
+  SELECT * FROM surf_data WHERE tide = `high`;
+                         error here ---^
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55                               high                            
+3   9/11/02                                                               
+sqlite> UPDATE surf_data SET wave_height = 4, wind_strength = 10, water_temp = 70, wind_direction = "SSE" WHERE id = 2;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55   4            10             high  70          SSE           
+3   9/11/02                                                               
+sqlite> UPDATE surf_data SET tide = "low" WHERE id = 2;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55   4            10             low   70          SSE           
+3   9/11/02                                                               
+sqlite> UPDATE surf_data SET tide = 70 WHERE id = 2;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55   4            10             70    70          SSE           
+3   9/11/02                                                               
+sqlite> UPDATE surf_data SET wind_strength = "damn its windy" WHERE id = 2;
+sqlite> UPDATE surf_data SET id = 100 WHERE id = 2;
+sqlite> INSERT INTO surf_data (date, tide) VALUES ("a long time ago", "so deep");
+sqlite> SELECT * FROM surf_data;
+id   date             wave_height  wind_strength   tide     water_temp  wind_direction
+---  ---------------  -----------  --------------  -------  ----------  --------------
+1    11/21/24         3            3               low      45          NNW           
+3    9/11/02                                                                          
+100  1/22/55          4            damn its windy  70       70          SSE           
+101  a long time ago                               so deep                            
+sqlite> SELECT id, date FROM surf_data;
+id   date           
+---  ---------------
+1    11/21/24       
+3    9/11/02        
+100  1/22/55        
+101  a long time ago
+sqlite> UPDATE surf_data SET id = 2 WHERE id = 100;
+sqlite> UPDATE surf_data SET id = 3 WHERE id = 101;
+Runtime error: UNIQUE constraint failed: surf_data.id (19)
+sqlite> UPDATE surf_data SET id = 4 WHERE id = 101;
+sqlite> SELECT id, date FROM surf_data;
+id  date           
+--  ---------------
+1   11/21/24       
+2   1/22/55        
+3   9/11/02        
+4   a long time ago
+sqlite> DELETE FROM surf_data WHERE id = 3;
+sqlite> SELECT * FROM surf_data;
+id  date             wave_height  wind_strength   tide     water_temp  wind_direction
+--  ---------------  -----------  --------------  -------  ----------  --------------
+1   11/21/24         3            3               low      45          NNW           
+2   1/22/55          4            damn its windy  70       70          SSE           
+4   a long time ago                               so deep                            
+sqlite> UPDATE surf_data SET date = NULL WHERE id = 4;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength   tide     water_temp  wind_direction
+--  --------  -----------  --------------  -------  ----------  --------------
+1   11/21/24  3            3               low      45          NNW           
+2   1/22/55   4            damn its windy  70       70          SSE           
+4                                          so deep                            
+sqlite> SELECT * FROM surf_data WHERE date IS NULL;
+id  date  wave_height  wind_strength  tide     water_temp  wind_direction
+--  ----  -----------  -------------  -------  ----------  --------------
+4                                     so deep                            
+sqlite> SELECT * FROM surf_data WHERE date IS NULL AND wind_strength IS NULL;
+id  date  wave_height  wind_strength  tide     water_temp  wind_direction
+--  ----  -----------  -------------  -------  ----------  --------------
+4                                     so deep                            
+sqlite> DELETE FROM surf_data WHERE date IS NULL;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength   tide  water_temp  wind_direction
+--  --------  -----------  --------------  ----  ----------  --------------
+1   11/21/24  3            3               low   45          NNW           
+2   1/22/55   4            damn its windy  70    70          SSE           
+sqlite> UPDATE surf_data SET wind_strength = NULL WHERE wind_strength = "damn its windy";
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+2   1/22/55   4                           70    70          SSE           
+sqlite> ALTER TABLE surf_data RENAME COLUMN water_temp TO water_tempterature;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  wind_strength  tide  water_tempterature  wind_direction
+--  --------  -----------  -------------  ----  ------------------  --------------
+1   11/21/24  3            3              low   45                  NNW           
+2   1/22/55   4                           70    70                  SSE           
+sqlite> ALTER TABLE surf_data RENAME COLUMN water_temp TO water_temperature;
+Parse error: no such column: "water_temp"
+  ALTER TABLE surf_data RENAME COLUMN water_temp TO water_temperature;
+                        error here ---^
+sqlite> ALTER TABLE surf_data RENAME COLUMN water_tempterature TO water_temperature;
+sqlite> ALTER TABLE surf_data DROP COLUMN wind_strength;
+sqlite> SELECT * FROM surf_data;
+id  date      wave_height  tide  water_temperature  wind_direction
+--  --------  -----------  ----  -----------------  --------------
+1   11/21/24  3            low   45                 NNW           
+2   1/22/55   4            70    70                 SSE           
+sqlite> DROP TABLE surf_data;
+sqlite> SELECT * FROM surf_data;
+Parse error: no such table: surf_data
+sqlite> .quit
+chett | 11:33:11 | intro-to-sql main
+☽ ☾ sqlite3 main.db < create_tables.sql 
+chett | 11:33:22 | intro-to-sql main
+☽ ☾ sqlite3 main.db
+SQLite version 3.45.1 2024-01-30 16:01:20
+Enter ".help" for usage hints.
+sqlite> .schema
+CREATE TABLE surf_data (
+id INTEGER PRIMARY KEY,
+date TEXT NOT NULL,
+wave_height INTEGER DEFAULT 3,
+wind_strength INTEGER,
+tide TEXT,
+water_temp INTEGER,
+wind_direction TEXT
+);
+sqlite> SELECT * FROM surf_data;
+sqlite> INSERT INTO surf_data (date, wave_height, wind_strength, tide, water_temp, wind_direction) VALUES ("11/21/24", 3, 3, "low", 45, "NNW");
+sqlite> SELECT * FROM surf_data;
+1|11/21/24|3|3|low|45|NNW
+sqlite> ALTER TABLE surf_data RENAME COLUMN date TO datetime;
+sqlite> .headers on
+sqlite> .mode columns
+sqlite> SELECT * FROM surf_data;
+id  datetime  wave_height  wind_strength  tide  water_temp  wind_direction
+--  --------  -----------  -------------  ----  ----------  --------------
+1   11/21/24  3            3              low   45          NNW           
+sqlite> ALTER TABLE surf_data ADD COLUMN shark_warning BOOLEAN DEFAULT TRUE;
+sqlite> SELECT * FROM surf_data;
+id  datetime  wave_height  wind_strength  tide  water_temp  wind_direction  shark_warning
+--  --------  -----------  -------------  ----  ----------  --------------  -------------
+1   11/21/24  3            3              low   45          NNW             1            
+sqlite> UPDATE surf_data SET shark_warning = FALSE WHERE id = 1;
+sqlite> SELECT * FROM surf_data;
+id  datetime  wave_height  wind_strength  tide  water_temp  wind_direction  shark_warning
+--  --------  -----------  -------------  ----  ----------  --------------  -------------
+1   11/21/24  3            3              low   45          NNW             0            
+sqlite> UPDATE surf_data SET shark_warning = "FALSE" WHERE id = 1;
+sqlite> SELECT * FROM surf_data;
+id  datetime  wave_height  wind_strength  tide  water_temp  wind_direction  shark_warning
+--  --------  -----------  -------------  ----  ----------  --------------  -------------
+1   11/21/24  3            3              low   45          NNW             FALSE        
+sqlite> UPDATE surf_data SET datetime = NULL WHERE id = 1;
+Runtime error: NOT NULL constraint failed: surf_data.datetime (19)
+sqlite> SELECT datetime FROM surf_data;
+datetime
+--------
+11/21/24
+sqlite> SELECT surf_data.datetime FROM surf_data;
+datetime
+--------
+11/21/24
+sqlite> .quit
+chett | 11:52:45 | intro-to-sql main
+☽ ☾ 
